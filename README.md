@@ -31,7 +31,7 @@ WHERE TIME < LENGTH;
 ```
 SELECT MONTH(p.payment_date) AS month, SUM(p.amount) AS 'total amount', count(p.rental_id) AS 'rentals by month'
 FROM payment p
-GROUP BY MONTH(p.payment_date)
+GROUP BY YEAR(p.payment_date), MONTH(p.payment_date)
 ORDER BY SUM(p.amount) DESC
 LIMIT 1;
 ```

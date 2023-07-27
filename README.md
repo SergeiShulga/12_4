@@ -8,16 +8,6 @@
 количество пользователей, закреплённых в этом магазине.
 
 ```
-SELECT concat(s.first_name  , ' ', s.last_name) as Имя , c.city,  count(c2.customer_id) as Количество 
-FROM staff s 
-JOIN address a  ON s.address_id = a.address_id 
-JOIN city c  ON a.city_id = c.city_id 
-JOIN store s2 ON s2.store_id = s.store_id 
-JOIN customer c2 ON s2.store_id = c2.store_id 
-GROUP BY s.first_name , s.last_name , c.city 
-HAVING Количество > 300;
-```
-```
 SELECT s.store_id, count(c.customer_id) AS "number of buyers", ci.city, concat(st.last_name, ' ', st.first_name) AS "salesman"
 FROM store s
 JOIN customer c ON c.store_id = s.store_id
@@ -31,11 +21,6 @@ HAVING count(c.customer_id) > 300;
 Получите количество фильмов, продолжительность которых больше средней продолжительности всех фильмов.
 
 ```
-SELECT  count(`length`) 
-FROM film 
-WHERE `length` > (SELECT avg(`length`)FROM film );
-```
-```
 SELECT COUNT(film_id) AS 'number of films'
 FROM (SELECT *, AVG(LENGTH) OVER () AS TIME FROM film) t
 WHERE TIME < LENGTH;
@@ -43,13 +28,6 @@ WHERE TIME < LENGTH;
 #### Задание 3
 Получите информацию, за какой месяц была получена наибольшая сумма платежей, и добавьте информацию по количеству аренд за этот месяц.
 
-```
-SELECT DATE_FORMAT(p.payment_date, '%Y-%M') AS Дата , (sum(p.amount )) AS Сумма , count((p.rental_id )) AS Аренд
-FROM payment p 
-GROUP BY Дата
-ORDER BY Сумма DESC
-LIMIT 1;
-```
 ```
 SELECT MONTH(p.payment_date) AS month, SUM(p.amount) AS 'total amount', count(p.rental_id) AS 'rentals by month'
 FROM payment p
@@ -66,7 +44,7 @@ LIMIT 1;
 
 ```
 SELECT CONCAT(s.first_name, ' ', s.last_name) AS salesman,
- COUNT(p.amount) AS sales,
+COUNT(p.amount) AS sales,
 CASE
 	WHEN COUNT(p.amount) > 8000 THEN 'YES'
 	WHEN COUNT(p.amount) < 8000 THEN 'NO'
